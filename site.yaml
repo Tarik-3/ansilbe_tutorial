@@ -1,0 +1,37 @@
+---
+- name: Installing nginx
+  hosts: all
+  become: true
+  tasks:
+    - name: Updating
+      package:
+        update_cache: true
+
+- name: Installing Docker in the host
+  hosts: me
+  become: true
+  tasks:
+    - name: Installing
+      package:
+        name: nginx
+        state: latest
+    - name: Running
+      service:
+        name: docker
+        enabled: true
+        state: restarted
+
+- name: Config of the web_server
+  hosts: web_servers
+  become: true
+  tasks:
+    - name: installing
+      package:
+        name: nginx
+        state: latest
+    - name: Running
+      service:
+        name: nginx
+        enabled: true
+        
+...
