@@ -7,14 +7,32 @@
     - name: Updating state
       yum:
         update_cache: true
-
+      when: ansible_distribution == "Amazon"
     - name: Installation
       yum:
         name: nginx
         state: present
+      when: ansible_distribution == "Amazon"
         
     - name: Running
       service:
         name: nginx
         enabled: true
         state: started
+      when: ansible_distribution == "Amazon"
+
+    - name: Updating state
+      apt:
+        update_cache: true
+      when: ansible_distribution == "Ubuntu"
+    - name: Installation
+      apt:
+        name: nginx
+        state: present
+      when: ansible_distribution == "Ubuntu"
+    - name: Running
+      service:
+        name: nginx
+        enabled: true
+        state: restarted
+      when: ansible_distribution == "Ubuntu"

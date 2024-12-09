@@ -1,3 +1,11 @@
 [aws]
 35.180.169.37
 13.37.240.244
+[aws:vars]
+ansible_ssh_private_key_file=~/.ssh/aws-ubuntu.pem
+
+
+[me]
+localhost
+[me:vars]
+ansible_user=ansible
