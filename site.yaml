@@ -3,7 +3,9 @@
   hosts: all
   become: true
   tasks:
+
     - name: Updating
+      tags: update
       package:
         update_cache: true
 
@@ -12,6 +14,7 @@
   become: true
   tasks:
     - name: Installing
+      tags: nginx, localhost
       package:
         name: nginx
         state: latest
@@ -20,6 +23,10 @@
         name: docker
         enabled: true
         state: restarted
+    - name: Copy the text
+      copy:
+        src: message.html
+        dest: /var/www/html/index.html
 
 - name: Config of the web_server
   hosts: web_servers
