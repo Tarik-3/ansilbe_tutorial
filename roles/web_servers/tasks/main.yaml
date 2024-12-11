@@ -1,12 +1,12 @@
 - name: Installing Apache2                                                                                
   tags: apache, localhost                                                                                
   package:                                                                                              
-    name: apache2                                                                                         
+    name: "{{apache_package_name}}"                                                                                         
     state: latest                                                                                       
                                                                                                             
 - name: Enabling and running the apache server
   service:
-    name: apache2
+    name: "{{apache_service}}"
     enabled: yes
     state: started
 

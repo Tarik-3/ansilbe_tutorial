@@ -4,7 +4,7 @@
 
 - name: Installing terraform
   unarchive:
-    src: https://releases.hashicorp.com/terraform/%3CVERSION%3E/terraform_0.12.0_linux_amd64.zip
+    src: https://releases.hashicorp.com/terraform/%3CVERSION%3E/terraform_1.12.0_linux_amd64.zip
     dest: /usr/local/bin
     remote_src: yes
     owner: root
