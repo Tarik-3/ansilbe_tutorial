@@ -1,9 +1,9 @@
 ---
-- hosts: aws
+- hosts: all
   become: true
   tasks:
     - name: Remove nginx
-      yum :
+      package :
         name: nginx
         state: absent
         

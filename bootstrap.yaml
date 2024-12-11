@@ -1,0 +1,38 @@
+---
+- name: Updating the servers
+  hosts: all
+  become: true
+  tasks:
+
+    - name: Updating
+      tags: update
+      package:
+        update_cache: false
+
+
+- name: Adding a user
+  hosts: all
+  become: yes
+  tasks:
+    
+    - name: Adding moha user
+      tags: always
+      user:
+        name: moha
+        groups: root
+
+    - name: Adding the public key to the new user
+      tags: always
+      authorized_key:
+        user: moha
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILiAm3RdpXsOpGm/QLDY1wEktF6oJkUBU+5O7YS63DbI ansible"
+
+    - name: Allow moha to use sudo without password
+      tags: always
+      copy:
+        src: sudoers_moha
+        dest: /etc/sudoers.d/moha
+        owner: root
+        group: root
+      
+...

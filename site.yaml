@@ -1,5 +1,5 @@
 ---
-- name: Installing nginx
+- name: Updating the systems
   hosts: all
   become: true
   tasks:
@@ -7,38 +7,57 @@
     - name: Updating
       tags: update
       package:
-        update_cache: true
+        update_cache: false
+      changed_when: false
 
-- name: Installing Docker in the host
-  hosts: me
+
+- name: Installing nginx in the host
+  hosts: all
   become: true
   tasks:
-    - name: Installing
+
+    - name: Installing nginx
       tags: nginx, localhost
       package:
         name: nginx
         state: latest
-    - name: Running
+
+    - name: Running docker
+      tags: docker
       service:
         name: docker
         enabled: true
         state: restarted
+
     - name: Copy the text
       copy:
         src: message.html
         dest: /var/www/html/index.html
 
-- name: Config of the web_server
-  hosts: web_servers
+- name: test the web server
+  hosts: all
   become: true
   tasks:
-    - name: installing
-      package:
-        name: nginx
-        state: latest
-    - name: Running
-      service:
-        name: nginx
-        enabled: true
-        
+
+    - name: Copy the text
+      copy:
+        src: message.html
+        dest: /var/www/html/index.html
+
+    - name: Status of the test
+      uri:
+        url: http://localhost
+        status_code: [200]
+
+- name: Adding an ssh public key
+  hosts: all
+  become: yes
+  tasks:
+    
+    - name: Adding the public key to the new user
+      tags: always
+      authorized_key:
+        user: moha
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILiAm3RdpXsOpGm/QLDY1wEktF6oJkUBU+5O7YS63DbI ansible"
+      
 ...
