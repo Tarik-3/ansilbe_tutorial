@@ -7,57 +7,38 @@
     - name: Updating
       tags: update
       package:
-        update_cache: false
-      changed_when: false
-
-
-- name: Installing nginx in the host
-  hosts: all
-  become: true
-  tasks:
-
-    - name: Installing nginx
-      tags: nginx, localhost
-      package:
-        name: nginx
-        state: latest
-
-    - name: Running docker
-      tags: docker
-      service:
-        name: docker
-        enabled: true
-        state: restarted
-
-    - name: Copy the text
-      copy:
-        src: message.html
-        dest: /var/www/html/index.html
-
-- name: test the web server
-  hosts: all
-  become: true
-  tasks:
-
-    - name: Copy the text
-      copy:
-        src: message.html
-        dest: /var/www/html/index.html
-
-    - name: Status of the test
-      uri:
-        url: http://localhost
-        status_code: [200]
+        update_cache: yes
+      changed_when: true
 
 - name: Adding an ssh public key
   hosts: all
   become: yes
-  tasks:
-    
-    - name: Adding the public key to the new user
-      tags: always
-      authorized_key:
-        user: moha
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILiAm3RdpXsOpGm/QLDY1wEktF6oJkUBU+5O7YS63DbI ansible"
+  roles:
+    - base 
+
+- name: Installing nginx in the host
+  hosts: all
+  become: true
+  roles:
+    - web_servers
+
+- name: Installing Terraform
+  hosts: main_host
+  become: yes
+  roles:
+    - main_host 
+
+- name: Data_base
+  hosts: all
+  become: true
+  roles:
+    - db_servers
+
+- name: File
+  hosts: all
+  become: yes
+  roles:
+    - file_servers
+
       
 ...

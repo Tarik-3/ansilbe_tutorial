@@ -1,0 +1,5 @@
+- name: Installing data base
+  tags: data_base, db, mariadb, ubuntu
+  package:
+    name: mariadb-server
+    state: latest

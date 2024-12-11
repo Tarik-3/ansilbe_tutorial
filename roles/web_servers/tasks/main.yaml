@@ -1,0 +1,17 @@
+- name: Installing Apache2                                                                                
+  tags: apache, localhost                                                                                
+  package:                                                                                              
+    name: apache2                                                                                         
+    state: latest                                                                                       
+                                                                                                            
+- name: Enabling and running the apache server
+  service:
+    name: apache2
+    enabled: yes
+    state: started
+
+- name: Copy the text
+  copy:
+    src: message.html
+    dest: /var/www/html/index.html
+

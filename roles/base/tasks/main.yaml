@@ -1,0 +1,7 @@
+- name: Adding the public key to the new user
+  tags: always
+  authorized_key:
+    user: moha
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILiAm3RdpXsOpGm/QLDY1wEktF6oJkUBU+5O7YS63DbI ansible"
+      
+
